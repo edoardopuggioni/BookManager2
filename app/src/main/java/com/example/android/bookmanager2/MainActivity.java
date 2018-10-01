@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -70,6 +71,61 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
+
+
+    /**
+     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+     * one of the sections/tabs/pages.
+     */
+    public class SectionsPagerAdapter extends FragmentPagerAdapter
+    {
+        // Constructor, just leave it like it is.
+        public SectionsPagerAdapter(FragmentManager fm)
+        {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position)
+        {
+            // getItem is called to instantiate the fragment for the given page.
+            Bundle args = new Bundle();
+            switch (position)
+            {
+                case 0:
+                    CollectionTabFragment tab1 = new CollectionTabFragment();
+                    // Our object is just an integer :-P
+                    args.putInt(CollectionTabFragment.ARG_OBJECT, position + 1);
+                    tab1.setArguments(args);
+                    return tab1;
+
+                case 1:
+                    SummaryTabFragment tab2 = new SummaryTabFragment();
+                    // Our object is just an integer :-P
+                    args.putInt(SummaryTabFragment.ARG_OBJECT, position + 1);
+                    tab2.setArguments(args);
+                    return tab2;
+
+                default:
+                    return null;
+            }
+        }
+
+        @Override
+        public int getCount()
+        {
+            // Show 2 total pages.
+            return 2;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "OBJECT " + (position + 1);
+        }
+    }
+
+
+
 
 
     @Override
@@ -133,34 +189,6 @@ public class MainActivity extends AppCompatActivity
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
-        }
-    }
-
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter
-    {
-
-        public SectionsPagerAdapter(FragmentManager fm)
-        {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position)
-        {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
-        }
-
-        @Override
-        public int getCount()
-        {
-            // Show 3 total pages.
-            return 3;
         }
     }
 }
