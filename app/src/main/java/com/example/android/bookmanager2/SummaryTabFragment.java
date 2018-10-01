@@ -18,9 +18,12 @@ public class SummaryTabFragment extends Fragment
 
         Bundle args = getArguments();
 
-        String text = "Collection tab: received " + Integer.toString(args.getInt(ARG_OBJECT));
-        TextView t = (TextView) rootView.findViewById(R.id.summary_text);
-        t.setText(text);
+        // Below there is a way to know the position of the current tab, don't need it here.
+        //String text = "Collection tab: received " + Integer.toString(args.getInt(ARG_OBJECT));
+
+
+        TextView t = (TextView) rootView.findViewById(R.id.summary_total);
+        t.setText("Books in your library: " + 5);
 
         return rootView;
     }
