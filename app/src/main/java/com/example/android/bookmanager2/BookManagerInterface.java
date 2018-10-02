@@ -1,5 +1,7 @@
 package com.example.android.bookmanager2;
 
+import android.content.SharedPreferences;
+
 import java.util.ArrayList;
 
 public interface BookManagerInterface
@@ -24,5 +26,5 @@ public interface BookManagerInterface
 
     public int getTotalCost();
 
-    public void saveChanges();
+    public void saveChanges( SharedPreferences prefs );
 }

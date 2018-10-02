@@ -1,6 +1,8 @@
 package com.example.android.bookmanager2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,6 +22,12 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity
 {
 
@@ -38,9 +46,22 @@ public class MainActivity extends AppCompatActivity
      */
     private ViewPager mViewPager;
 
+    private SimpleBookManager sbm = SimpleBookManager.getBookManager();
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        if( sbm.isFirstTime() )
+        {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            Gson gson = new Gson();
+            String json = prefs.getString("book_list", null);
+            Type type = new TypeToken<ArrayList<Book>>() {}.getType();
+            ArrayList<Book> bookList = (ArrayList<Book>) gson.fromJson(json, type);
+            if( bookList != null )
+                sbm.setBookList( bookList );
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -60,9 +81,7 @@ public class MainActivity extends AppCompatActivity
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-        //accesing only one instance of simple book manager
-        SimpleBookManager.getBookManager();
-
+        sbm.setFirstTimeFalse();
     }
 
 
