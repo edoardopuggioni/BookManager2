@@ -13,6 +13,7 @@ public class SimpleBookManager implements BookManagerInterface
     public static SimpleBookManager getBookManager() {
         return ourInstance ;
     }
+
     private SimpleBookManager() {
         createBook("Bill Bryson","A Short History of Nearly Everything ",145,"0-7679-0817-1","Life" );
         createBook("Elizabeth Kostova","The Historian",99,"0-316-01177-0","English" );
