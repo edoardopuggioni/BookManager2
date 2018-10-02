@@ -23,9 +23,17 @@ public class SummaryTabFragment extends Fragment
 
         // this is how you call only one instance of SimpleBookManager:
 
-
-        TextView t = (TextView) rootView.findViewById(R.id.summary_total);
-        t.setText("Books in your library: " + SimpleBookManager.getBookManager().count());
+        TextView t;
+        t = (TextView) rootView.findViewById(R.id.summary_number);
+        t.setText( "Books in your library: " + SimpleBookManager.getBookManager().count() );
+        t = (TextView) rootView.findViewById(R.id.summary_total);
+        t.setText( String.valueOf( SimpleBookManager.getBookManager().getTotalCost() ) );
+        t = (TextView) rootView.findViewById(R.id.summary_most);
+        t.setText( String.valueOf( SimpleBookManager.getBookManager().getMaxPrice() ) );
+        t = (TextView) rootView.findViewById(R.id.summary_least);
+        t.setText( String.valueOf( SimpleBookManager.getBookManager().getMinPrice() ) );
+        t = (TextView) rootView.findViewById(R.id.summary_average);
+        t.setText( String.valueOf( SimpleBookManager.getBookManager().getMeanPrice() ) );
 
         return rootView;
     }
