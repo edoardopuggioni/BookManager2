@@ -7,14 +7,20 @@ public class SimpleBookManager implements BookManagerInterface
 {
     private ArrayList<Book> bookList = new ArrayList<>();
 
-    public SimpleBookManager()
-    {
+    // Implementation of singleton needs a new instance of class, method that is returning the only one instance and default constructor
+    private static final SimpleBookManager ourInstance = new SimpleBookManager();
+
+    public static SimpleBookManager getBookManager() {
+        return ourInstance ;
+    }
+    private SimpleBookManager() {
         createBook("Bill Bryson","A Short History of Nearly Everything ",145,"0-7679-0817-1","Life" );
         createBook("Elizabeth Kostova","The Historian",99,"0-316-01177-0","English" );
         createBook("Andrew S. Tanenbaum","Modern Operating Systems",120," 0132199084","Operating systems" );
         createBook("Bjarne Stroustrup","The C++ Programming Language",999,"978-0321563842","OOP" );
         createBook("Collins Gem","SAS Survival Guide Handbook",399," 0060849827","Life" );
     }
+    // End of singleton implementation
 
     @Override
     public int count() {

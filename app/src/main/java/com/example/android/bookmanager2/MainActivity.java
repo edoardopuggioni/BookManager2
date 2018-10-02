@@ -60,16 +60,8 @@ public class MainActivity extends AppCompatActivity
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        //accesing only one instance of simple book manager
+        SimpleBookManager.getBookManager();
 
     }
 
@@ -127,8 +119,6 @@ public class MainActivity extends AppCompatActivity
 
 
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -142,7 +132,7 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar button (add new book)
         int id = item.getItemId();
         //run if button clicked
-        if (id == R.id.action_favorite) {
+        if (id == R.id.action_addBook) {
             //moving to AddBook activity
             Intent intent = new Intent(this, AddBook.class);
             startActivity(intent);

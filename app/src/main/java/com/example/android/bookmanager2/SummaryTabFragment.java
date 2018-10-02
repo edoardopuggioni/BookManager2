@@ -21,9 +21,11 @@ public class SummaryTabFragment extends Fragment
         // Below there is a way to know the position of the current tab, don't need it here.
         //String text = "Collection tab: received " + Integer.toString(args.getInt(ARG_OBJECT));
 
+        // this is how you call only one instance of SimpleBookManager:
+
 
         TextView t = (TextView) rootView.findViewById(R.id.summary_total);
-        t.setText("Books in your library: " + 5);
+        t.setText("Books in your library: " + SimpleBookManager.getBookManager().count());
 
         return rootView;
     }
