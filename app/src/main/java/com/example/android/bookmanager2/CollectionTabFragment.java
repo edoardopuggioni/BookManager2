@@ -56,7 +56,7 @@ public class CollectionTabFragment extends Fragment
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id)
         {
-            Intent intent = new Intent( this, BookDetails.class);
+            Intent intent = new Intent( getActivity().getApplicationContext(), BookDetails.class );
             String message = String.valueOf(position);
             intent.putExtra( EXTRA_MESSAGE, message );
             startActivity(intent);
