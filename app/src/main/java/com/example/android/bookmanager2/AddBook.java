@@ -31,7 +31,6 @@ public class AddBook extends AppCompatActivity
         final EditText edPrice = (EditText) findViewById(R.id.editTextPrice);
 
 
-
         btn.setOnClickListener( new View.OnClickListener()
         {
             @Override
@@ -105,6 +104,8 @@ public class AddBook extends AppCompatActivity
                         edIsbn.getText().toString(),
                         edCourse.getText().toString()
                 );
+
+
 
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                 sbm.saveChanges(prefs);

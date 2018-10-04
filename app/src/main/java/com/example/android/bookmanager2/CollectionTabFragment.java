@@ -39,10 +39,14 @@ public class CollectionTabFragment extends Fragment
         // This is the array adapter, it takes the context of the activity as a
         // first parameter, the type of list view as a second parameter and your
         // array as a third parameter.
-        ArrayAdapter<Book> arrayAdapter = new ArrayAdapter<Book>(
-                getActivity().getApplicationContext(),
-                android.R.layout.simple_list_item_1,
-                (ArrayList<Book>) book_list );
+//        ArrayAdapter<Book> arrayAdapter = new ArrayAdapter<Book>(
+//                getActivity().getApplicationContext(),
+//                android.R.layout.simple_list_item_1,
+//                (ArrayList<Book>) book_list );
+
+        // I try to use the CustomArrayAdapter
+
+        CustomArrayAdapter arrayAdapter = new CustomArrayAdapter( getActivity().getApplicationContext(), sbm.getAllBooks() );
 
         listView.setAdapter(arrayAdapter);
 
