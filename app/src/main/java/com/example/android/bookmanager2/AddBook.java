@@ -115,7 +115,6 @@ public class AddBook extends AppCompatActivity
             }
         } );
 
-        Gson gson = new Gson();
     }
 
 
