@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.android.bookmanager2.MainActivity">
+    <item
+        android:id="@+id/action_deleteBook"
+        android:icon="@drawable/trash_button"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:title="Delete" />
+    <item
+        android:id="@+id/action_addBook"
+        android:icon="@drawable/edit_button"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:title="Add" />
+
+</menu>
