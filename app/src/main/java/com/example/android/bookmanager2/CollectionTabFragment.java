@@ -3,6 +3,7 @@ package com.example.android.bookmanager2;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +63,7 @@ public class CollectionTabFragment extends Fragment
         {
             Intent intent = new Intent( getActivity().getApplicationContext(), BookDetails.class );
             String message = String.valueOf(position);
+
             intent.putExtra( EXTRA_MESSAGE, message );
             startActivity(intent);
         }
