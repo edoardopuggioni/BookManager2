@@ -137,7 +137,6 @@ public class SimpleBookManager implements BookManagerInterface
         editor.apply();
     }
 
-
     public boolean isFirstTime()
     {
         return firstTime;
