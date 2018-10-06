@@ -7,6 +7,9 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +19,12 @@ import com.google.gson.Gson;
 
 public class AddBook extends AppCompatActivity
 {
+    private EditText edTitle = null;
+    private EditText edAuthor = null;
+    private EditText edCourse = null;
+    private EditText edIsbn = null;
+    private EditText edPrice = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -23,103 +32,59 @@ public class AddBook extends AppCompatActivity
         setContentView(R.layout.activity_add_book);
 
         //initializing input
-        Button btn = (Button) findViewById(R.id.button);
-        final EditText edTitle = (EditText)  findViewById(R.id.editTextTitle);
-        final EditText edAuthor = (EditText) findViewById(R.id.editTextAuthor);
-        final EditText edCourse = (EditText) findViewById(R.id.editTextCourse);
-        final EditText edIsbn = (EditText) findViewById(R.id.editTextIsbn);
-        final EditText edPrice = (EditText) findViewById(R.id.editTextPrice);
-
-
-        btn.setOnClickListener( new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Context context = getApplicationContext();
-
-                String title;
-                String author;
-                String course;
-                String isbn;
-                String price_string; // later to be converted to int value
-                Integer price;
-                SimpleBookManager sbm = SimpleBookManager.getBookManager();
-                Toast toast;
-
-                title = edTitle.getText().toString();
-                if( title.matches("") )
-                {
-                    toast = Toast.makeText(context,"Title missing", Toast.LENGTH_SHORT);
-                    toast.show();
-                    return;
-                }
-
-                author = edAuthor.getText().toString();
-                if( author.matches("") )
-                {
-                    toast = Toast.makeText(context,"Author missing", Toast.LENGTH_SHORT);
-                    toast.show();
-                    return;
-                }
-
-                course = edCourse.getText().toString();
-                if( course.matches("") )
-                {
-                    toast = Toast.makeText(context,"Course missing", Toast.LENGTH_SHORT);
-                    toast.show();
-                    return;
-                }
-
-                isbn = edIsbn.getText().toString();
-                if( isbn.matches("") )
-                {
-                    toast = Toast.makeText(context,"ISBN missing", Toast.LENGTH_SHORT);
-                    toast.show();
-                    return;
-                }
-
-                price_string = edPrice.getText().toString();
-                if( price_string.matches("") )
-                {
-                    toast = Toast.makeText(context,"Price missing", Toast.LENGTH_SHORT);
-                    toast.show();
-                    return;
-                }
-                try
-                {
-                    price = Integer.parseInt( edPrice.getText().toString() );
-                }
-                catch(Exception e)
-                {
-                    toast = Toast.makeText(context,"Price format error", Toast.LENGTH_SHORT);
-                    toast.show();
-                    return;
-                }
-
-                sbm.createBook(
-                        edTitle.getText().toString(),
-                        edAuthor.getText().toString(),
-                        Integer.parseInt( edPrice.getText().toString()),
-                        edIsbn.getText().toString(),
-                        edCourse.getText().toString()
-                );
-
-
-
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-                sbm.saveChanges(prefs);
-                Intent intent = new Intent(AddBook.this, MainActivity.class);
-                startActivity(intent);
-                toast = Toast.makeText(context,"Book added", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        } );
-
+        edTitle = (EditText)  findViewById(R.id.editTextTitle);
+        edAuthor = (EditText) findViewById(R.id.editTextAuthor);
+        edCourse = (EditText) findViewById(R.id.editTextCourse);
+        edIsbn = (EditText) findViewById(R.id.editTextIsbn);
+        edPrice = (EditText) findViewById(R.id.editTextPrice);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        // Inflate the menu items for use in the actionbar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_edit,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        Context context = getApplicationContext();
 
+        String title;
+        String author;
+        String course;
+        String isbn;
+        String price_string; //later to be converted to int value
+        Integer price;
+        SimpleBookManager sbm = SimpleBookManager.getBookManager();
+        Toast toast;
+
+        title = edTitle.getText().toString();
+        author = edAuthor.getText().toString();
+        course = edCourse.getText().toString();
+        isbn=edIsbn.getText().toString();
+        price_string=edPrice.getText().toString();
+
+        price=sbm.validateData(context,title,author,course,isbn,price_string);
+
+        if(price!=-1)
+            sbm.createBook(author,title,price,isbn,course);
+        else
+            return false;
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        sbm.saveChanges(prefs);
+
+        Intent intent = new Intent(AddBook.this,MainActivity.class);
+        startActivity(intent);
+
+        toast = Toast.makeText(context, "Book added", Toast.LENGTH_SHORT);
+        toast.show();
+
+        return super.onOptionsItemSelected(item);
+    }
 
 
 

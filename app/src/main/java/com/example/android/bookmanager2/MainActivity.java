@@ -58,6 +58,17 @@ public class MainActivity extends AppCompatActivity
             ArrayList<Book> bookList = (ArrayList<Book>) gson.fromJson(json, type);
             if( bookList != null )
                 sbm.setBookList( bookList );
+            else
+            {
+                sbm.createBook("Bill Bryson","A Short History of Nearly Everything ",145,"0-7679-0817-1","Life" );
+                sbm.createBook("Elizabeth Kostova","The Historian",99,"0-316-01177-0","English" );
+                sbm.createBook("Andrew S. Tanenbaum","Modern Operating Systems",120," 0132199084","Operating systems" );
+                sbm.createBook("Bjarne Stroustrup","The C++ Programming Language",999,"978-0321563842","OOP" );
+                sbm.createBook("Collins Gem","SAS Survival Guide Handbook",399," 0060849827","Life" );
+
+                prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                sbm.saveChanges(prefs);
+            }
         }
 
         super.onCreate(savedInstanceState);

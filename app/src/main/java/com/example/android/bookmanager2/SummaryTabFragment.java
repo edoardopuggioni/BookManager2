@@ -25,7 +25,7 @@ public class SummaryTabFragment extends Fragment
 
         TextView t;
         t = (TextView) rootView.findViewById(R.id.summary_number);
-        t.setText( "Books in your library: " + SimpleBookManager.getBookManager().count() );
+        t.setText( "You have " + SimpleBookManager.getBookManager().count() + " books in your library");
         t = (TextView) rootView.findViewById(R.id.summary_total);
         t.setText( String.valueOf( SimpleBookManager.getBookManager().getTotalCost() ) );
         t = (TextView) rootView.findViewById(R.id.summary_most);

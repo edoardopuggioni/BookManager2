@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
@@ -57,25 +58,54 @@ public class BookEdit extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        //number of the book to replace
+        // Index of the book to replace.
         sbm.getBook(Integer.parseInt(BookNumber));
         int id = item.getItemId();
-        if (id == R.id.action_saveBook) {
-            //preparing new book object
-            Book book = new Book(etAuthor.getText().toString(),
-                                 etTitle.getText().toString(),
-                                 Integer.parseInt(etPrice.getText().toString()),
-                                 etISBN.getText().toString(),
-                                 etCourse.getText().toString());
 
-            //replacing edited version of book with the old one
-            sbm.getAllBooks().set(Integer.parseInt(BookNumber),book);
+        if (id == R.id.action_saveBook)
+        {
+            String title;
+            String author;
+            String course;
+            String isbn;
+            String price_string; // later to be converted to int value
+            Integer price;
+
+            title = etTitle.getText().toString();
+            author = etAuthor.getText().toString();
+            course = etCourse.getText().toString();
+            isbn = etISBN.getText().toString();
+            price_string = etPrice.getText().toString();
+
+            price = sbm.validateData(getApplicationContext(), title, author, course, isbn, price_string );
+
+            if( price != -1 )
+            {
+                // Preparing new book object
+                Book book = new Book( author, title, price, isbn, course );
+
+                // Replacing edited version of book with the old one
+                sbm.getAllBooks().set(Integer.parseInt(BookNumber), book);
+
+                Context context = getApplicationContext();
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                sbm.saveChanges(prefs);
+
+                Toast toast;
+                toast = Toast.makeText(context,"Book modified", Toast.LENGTH_SHORT);
+                toast.show();
+
+                Intent intent = new Intent(BookEdit.this, MainActivity.class);
+                startActivity(intent);
+            }
+            else
+                return false;
         }
-        //go to main activity
+
+        // Go to main activity.
         Intent intentFromAdd = new Intent(BookEdit.this, MainActivity.class);
         startActivity(intentFromAdd);
 
         return super.onOptionsItemSelected(item);
     }
-
 }

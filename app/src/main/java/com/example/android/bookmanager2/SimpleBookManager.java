@@ -3,6 +3,7 @@ package com.example.android.bookmanager2;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -28,9 +29,6 @@ public class SimpleBookManager implements BookManagerInterface
 //        createBook("Andrew S. Tanenbaum","Modern Operating Systems",120," 0132199084","Operating systems" );
 //        createBook("Bjarne Stroustrup","The C++ Programming Language",999,"978-0321563842","OOP" );
 //        createBook("Collins Gem","SAS Survival Guide Handbook",399," 0060849827","Life" );
-
-        // Here we have to load data from SharedPreferences, instead of manually creating the books
-        // like we did above.
     }
     // End of singleton implementation
 
@@ -63,6 +61,61 @@ public class SimpleBookManager implements BookManagerInterface
         Book InstanceOfBook = new Book( author, title, price, isbn, course );
         bookList.add(InstanceOfBook);
         return InstanceOfBook;
+    }
+
+    // validateData returns -1 if there is some error in the format, otherwise it returns the price.
+    public int validateData ( Context context, String title, String author, String course, String isbn,
+            String price_string )
+    {
+        int price;
+        Toast toast;
+
+        if( title.matches("") )
+        {
+            toast = Toast.makeText(context,"Title missing", Toast.LENGTH_SHORT);
+            toast.show();
+            return -1;
+        }
+
+        if( author.matches("") )
+        {
+            toast = Toast.makeText(context,"Author missing", Toast.LENGTH_SHORT);
+            toast.show();
+            return -1;
+        }
+
+        if( course.matches("") )
+        {
+            toast = Toast.makeText(context,"Course missing", Toast.LENGTH_SHORT);
+            toast.show();
+            return -1;
+        }
+
+        if( isbn.matches("") )
+        {
+            toast = Toast.makeText(context,"ISBN missing", Toast.LENGTH_SHORT);
+            toast.show();
+            return -1;
+        }
+
+        if( price_string.matches("") )
+        {
+            toast = Toast.makeText(context,"Price missing", Toast.LENGTH_SHORT);
+            toast.show();
+            return -1;
+        }
+        try
+        {
+            price = Integer.parseInt( price_string );
+        }
+        catch(Exception e)
+        {
+            toast = Toast.makeText(context,"Price format error", Toast.LENGTH_SHORT);
+            toast.show();
+            return -1;
+        }
+
+        return price;
     }
 
     @Override
