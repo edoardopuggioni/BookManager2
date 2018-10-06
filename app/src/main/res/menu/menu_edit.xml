@@ -4,7 +4,7 @@
     tools:context="com.example.android.bookmanager2.MainActivity">
     <item
         android:id="@+id/action_saveBook"
-        android:icon="@drawable/add_button"
+        android:icon="@drawable/save_button"
         android:orderInCategory="100"
         app:showAsAction="always"
         android:title="Button" />

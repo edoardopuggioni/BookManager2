@@ -1,55 +1,54 @@
 package com.example.android.bookmanager2;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.provider.AlarmClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import static android.provider.AlarmClock.EXTRA_MESSAGE;
-
 
 public class BookDetails extends AppCompatActivity {
 
     String BookNumber;
     SimpleBookManager sbm = SimpleBookManager.getBookManager();
 
-    EditText etAuthor;
-    EditText etTitle;
-    EditText etCourse;
-    EditText etISBN ;
-    EditText etPrice;
-
+    TextView tvAuthor;
+    TextView tvTitle;
+    TextView tvCourse;
+    TextView tvISBN ;
+    TextView tvPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_details);
+
+        //catch number of book from previous activity
         Intent CaughtIntent = getIntent();
-        BookNumber = CaughtIntent.getStringExtra(EXTRA_MESSAGE);
+        BookNumber = CaughtIntent.getStringExtra(AlarmClock.EXTRA_MESSAGE);
 
-        // fill edit boxes with data
+        tvAuthor = findViewById(R.id.label_author);
+        tvTitle =  findViewById(R.id.label_title);
+        tvCourse = findViewById(R.id.label_course);
+        tvPrice =  findViewById(R.id.label_price);
+        tvISBN =   findViewById(R.id.label_isbn);
 
-        etAuthor = (EditText) findViewById(R.id.etAuthor);
-        etTitle = (EditText) findViewById(R.id.etTitle);
-        etCourse = (EditText) findViewById(R.id.etCourse);
-        etPrice = (EditText) findViewById(R.id.etPrice);
-        etISBN = (EditText) findViewById(R.id.etISBN);
-
-        etAuthor.setText(sbm.getBook(Integer.parseInt(BookNumber)).getAuthor());
-        etTitle.setText(sbm.getBook(Integer.parseInt(BookNumber)).getTitle());
-        etCourse.setText(sbm.getBook(Integer.parseInt(BookNumber)).getCourse());
-        etISBN.setText(sbm.getBook(Integer.parseInt(BookNumber)).getIsbn());
-        etPrice.setText("" + sbm.getBook(Integer.parseInt(BookNumber)).getPrice());
-    }
+        //fill TextViews with data
+        tvAuthor.setText(sbm.getBook(Integer.parseInt(BookNumber)).getAuthor());
+        tvTitle.setText(sbm.getBook(Integer.parseInt(BookNumber)).getTitle());
+        tvCourse.setText(sbm.getBook(Integer.parseInt(BookNumber)).getCourse());
+        tvISBN.setText(sbm.getBook(Integer.parseInt(BookNumber)).getIsbn());
+        tvPrice.setText("" + sbm.getBook(Integer.parseInt(BookNumber)).getPrice());
+        Log.d("tag1",BookNumber);
+        }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -62,24 +61,15 @@ public class BookDetails extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.action_addBook:
+            //go to BookEdit activity
+            case R.id.action_saveBook:
 
-                //number of the book to replace
-                sbm.getBook(Integer.parseInt(BookNumber));
-
-
-                Book book = new Book(etAuthor.getText().toString(),
-                        etTitle.getText().toString(),
-                        Integer.parseInt( etPrice.getText().toString()),
-                        etISBN.getText().toString(),
-                        etCourse.getText().toString()
-                        );
-
-
-                Intent intentFromAdd = new Intent(BookDetails.this, MainActivity.class);
-                startActivity(intentFromAdd);
+                Intent intentFromEdit = new Intent(BookDetails.this, BookEdit.class);
+                intentFromEdit.putExtra( EXTRA_MESSAGE, BookNumber );
+                startActivity(intentFromEdit);
                 return true;
 
+            // delete item
             case R.id.action_deleteBook:
 
                 sbm.removeBook(sbm.getBook(Integer.parseInt(BookNumber)));
@@ -92,5 +82,4 @@ public class BookDetails extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }
