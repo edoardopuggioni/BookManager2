@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -151,7 +149,7 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar button (add new book)
         int id = item.getItemId();
         //run if button clicked
-        if (id == R.id.action_addBook) {
+        if (id == R.id.action_saveBook) {
             //moving to AddBook activity
             Intent intent = new Intent(this, AddBook.class);
             startActivity(intent);

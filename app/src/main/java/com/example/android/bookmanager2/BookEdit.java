@@ -26,7 +26,6 @@ public class BookEdit extends AppCompatActivity {
     EditText etISBN ;
     EditText etPrice;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +34,6 @@ public class BookEdit extends AppCompatActivity {
         BookNumber = CaughtIntent.getStringExtra(EXTRA_MESSAGE);
 
         // fill edit boxes with data
-
         etAuthor = (EditText) findViewById(R.id.etAuthor);
         etTitle = (EditText) findViewById(R.id.etTitle);
         etCourse = (EditText) findViewById(R.id.etCourse);
@@ -59,35 +57,24 @@ public class BookEdit extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
-            case R.id.action_addBook:
+        //number of the book to replace
+        sbm.getBook(Integer.parseInt(BookNumber));
+        int id = item.getItemId();
+        if (id == R.id.action_saveBook) {
+            //preparing new book object
+            Book book = new Book(etAuthor.getText().toString(),
+                                 etTitle.getText().toString(),
+                                 Integer.parseInt(etPrice.getText().toString()),
+                                 etISBN.getText().toString(),
+                                 etCourse.getText().toString());
 
-                //number of the book to replace
-                sbm.getBook(Integer.parseInt(BookNumber));
-
-
-                Book book = new Book(etAuthor.getText().toString(),
-                        etTitle.getText().toString(),
-                        Integer.parseInt( etPrice.getText().toString()),
-                        etISBN.getText().toString(),
-                        etCourse.getText().toString()
-                        );
-
-
-                Intent intentFromAdd = new Intent(BookEdit.this, MainActivity.class);
-                startActivity(intentFromAdd);
-                return true;
-
-            case R.id.action_deleteBook:
-
-                sbm.removeBook(sbm.getBook(Integer.parseInt(BookNumber)));
-                Context context = getApplicationContext();
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-                sbm.saveChanges(prefs);
-                Intent intentFromDel = new Intent(BookEdit.this, MainActivity.class);
-                startActivity(intentFromDel);
-                return true;
+            //replacing edited version of book with the old one
+            sbm.getAllBooks().set(Integer.parseInt(BookNumber),book);
         }
+        //go to main activity
+        Intent intentFromAdd = new Intent(BookEdit.this, MainActivity.class);
+        startActivity(intentFromAdd);
+
         return super.onOptionsItemSelected(item);
     }
 

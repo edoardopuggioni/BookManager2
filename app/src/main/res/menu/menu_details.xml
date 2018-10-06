@@ -9,7 +9,7 @@
         app:showAsAction="always"
         android:title="Delete" />
     <item
-        android:id="@+id/action_addBook"
+        android:id="@+id/action_saveBook"
         android:icon="@drawable/edit_button"
         android:orderInCategory="100"
         app:showAsAction="always"
